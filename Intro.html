@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            position: absolute;
+        }
+
+        body {
+            position: relative;
+            background: #000;
+            width: 2000px;
+            height: 1000px;
+            overflow: hidden;
+        }
+
+        .player {
+            position: absolute;
+            width: 54px;
+            height: 83px;
+            background-image: url(sprite/boy1.png);
+            background-position: -0px -0px;
+            left: 0;
+            top: 0;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="bgContainer">
+        <div class="bg"></div> -->
+    <!-- <div class="bg"></div> -->
+    <!-- </div> -->
+    <!-- <canvas id="myCanvas" width="480" height="320"></canvas> -->
+    <!-- <div class="player"></div> -->
+    <!-- <img src="sprite/bot2.gif" width="202" height="184" /> -->
+</body>
+
+</html>
+
+<script src="lib/jquery-3.2.1.min.js"></script>
+<script src="GameObject.js"></script>
+<script src="js/Player.js"></script>
+<script src="js/Enemy.js"></script>
+<script src="js/Game.js"></script>
+
+<script>
+    //init pub/sub mechanism
+    window.topics = {}
+    let factor = 10;
+    let w = 640 * factor;
+    let h = 100 * factor;
+    let container = document.createElement('div');
+    container.className = "container"
+    container.style.cssText = `left: 0; position: absolute; width: ` + w * 2 + `px;`
+    document.body.appendChild(container);
+
+    function Background() {
+        this.dom = document.createElement('div');
+        this.dom.style.cssText = `background: url("sprite/Background.png") no-repeat center center;
+        width: `+ w + `px;
+        height: `+ h + `px;
+        background-size: cover;
+        float: left;`
+        container.appendChild(this.dom);
+        container.style.width += w;
+    }
+
+    $('<img/>').attr('src', 'sprite/Background.png').on('load', function () {
+        $(this).remove(); // prevent memory leaks
+        new Background(w, h);
+        new Background(w, h);
+        window.game = new Game();
+    });
+</script>
